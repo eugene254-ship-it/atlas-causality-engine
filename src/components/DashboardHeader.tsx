@@ -1,5 +1,5 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map } from 'lucide-react';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database } from 'lucide-react';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
@@ -12,6 +12,8 @@ export default function DashboardHeader() {
     { id: 'ranking' as const, label: 'Impact Ranking', icon: BarChart3 },
     { id: 'breakchain' as const, label: 'Break Chain', icon: Shield },
     { id: 'map' as const, label: 'Map', icon: Map },
+    { id: 'briefing' as const, label: 'Briefing', icon: FileText },
+    { id: 'ingest' as const, label: 'Data', icon: Database },
   ];
 
   return (

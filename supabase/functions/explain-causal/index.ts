@@ -100,6 +100,70 @@ Provide a strategic recommendation for policy leaders:
 5. What to monitor for effectiveness
 
 Be specific, actionable, and honest about trade-offs. Use markdown formatting.`;
+    } else if (type === "policy_briefing") {
+      userPrompt = `Generate a comprehensive policy briefing document based on this causal chain analysis:
+
+## Chain Overview
+${context.chainSummary}
+
+## Scale
+- ${context.totalNodes} causal factors across multiple domains
+- ${context.totalEdges} causal links identified
+- ${context.interventionEligibleCount} nodes eligible for intervention
+
+## Critical Factors (Immediate Attention Required)
+${context.criticalFactors?.map((f: { label: string; domain: string; currentValue: string; changeDelta: string }) =>
+  `- **${f.label}** (${f.domain}): ${f.currentValue} | Change: ${f.changeDelta}`
+).join("\n") || "None"}
+
+## High Risk Factors
+${context.highRiskFactors?.map((f: { label: string; domain: string; currentValue: string }) =>
+  `- **${f.label}** (${f.domain}): ${f.currentValue}`
+).join("\n") || "None"}
+
+## Available Interventions
+${context.topInterventions?.map((i: { label: string; estimatedImpact: number; timeToEffect: string; costBand: string; risks: string[] }) =>
+  `- **${i.label}**: ${Math.round(i.estimatedImpact * 100)}% impact, ${i.timeToEffect}, ${i.costBand} cost | Risks: ${i.risks.join(", ")}`
+).join("\n") || "None"}
+
+## Domain Breakdown
+${context.domainBreakdown?.map(([d, c]: [string, number]) => `- ${d}: ${c} factors`).join("\n") || "N/A"}
+
+---
+
+Generate a structured policy briefing document with these sections:
+
+# POLICY BRIEFING: East Africa Causal Crisis Assessment
+
+## 1. EXECUTIVE SUMMARY
+A 3-4 sentence overview suitable for senior leaders. State the core problem, trajectory, and urgency level.
+
+## 2. SITUATION ASSESSMENT
+Current state of the causal chain. What's happening, how fast, and where.
+
+## 3. RISK ASSESSMENT
+### Critical Risks
+### Emerging Risks
+### Risk Trajectory (next 30/60/90 days)
+
+## 4. CAUSAL ANALYSIS
+Key causal pathways and their significance. Which links are strongest and most concerning.
+
+## 5. RECOMMENDED ACTIONS (Prioritized)
+### Immediate (0-2 weeks)
+### Short-term (2-8 weeks)
+### Medium-term (2-6 months)
+
+## 6. RESOURCE REQUIREMENTS
+Estimated costs, personnel, and coordination needs.
+
+## 7. MONITORING FRAMEWORK
+Key indicators to track effectiveness.
+
+## 8. CONFIDENCE & LIMITATIONS
+What we know, what we don't, and where uncertainty is highest.
+
+Use markdown formatting. Be specific, data-driven, and actionable. This is for senior policy leaders who need to make decisions today.`;
     }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
