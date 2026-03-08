@@ -24,10 +24,10 @@ const NOTE_COLORS = [
 ];
 
 export default function AnnotationsPanel({ targetType, targetId }: { targetType: 'node' | 'edge'; targetId: string }) {
+  const { user } = useAuth();
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [newContent, setNewContent] = useState('');
-  const [authorName, setAuthorName] = useState('');
   const [selectedColor, setSelectedColor] = useState(NOTE_COLORS[0]);
   const [isLoading, setIsLoading] = useState(false);
 
