@@ -107,13 +107,6 @@ export default function AnnotationsPanel({ targetType, targetId }: { targetType:
             <div className="px-4 pb-3 space-y-2">
               {/* Input */}
               <div className="space-y-2">
-                <input
-                  type="text"
-                  value={authorName}
-                  onChange={e => setAuthorName(e.target.value)}
-                  placeholder="Your name…"
-                  className="w-full px-2.5 py-1.5 rounded text-[11px] bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-                />
                 <div className="flex gap-1.5">
                   <textarea
                     value={newContent}

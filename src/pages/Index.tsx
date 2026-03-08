@@ -86,6 +86,7 @@ const Index = () => {
           </>
         )}
 
+        {activeView === 'home' && <DashboardHomeView />}
         {activeView === 'compare' && <CompareMode />}
         {activeView === 'scenario' && <ScenarioMode />}
         {activeView === 'ranking' && <ImpactRankingTable />}
