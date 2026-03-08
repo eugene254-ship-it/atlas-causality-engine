@@ -3,6 +3,7 @@ import { edges, getNodeById } from '@/data/causalData';
 import { domainColors, domainIcons } from '@/lib/domainUtils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import AnnotationsPanel from '@/components/panels/AnnotationsPanel';
 
 export default function EdgeInspector() {
   const { selectedEdgeId, setSelectedEdge } = useDashboardStore();
