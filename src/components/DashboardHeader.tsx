@@ -1,5 +1,6 @@
 import { useDashboardStore } from '@/store/dashboardStore';
 import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database } from 'lucide-react';
+import ExportPDFButton from '@/components/panels/ExportPDFButton';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
