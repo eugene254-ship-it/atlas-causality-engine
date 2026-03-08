@@ -14,6 +14,7 @@ export default function DashboardHeader() {
     { id: 'breakchain' as const, label: 'Break Chain', icon: Shield },
     { id: 'map' as const, label: 'Map', icon: Map },
     { id: 'briefing' as const, label: 'Briefing', icon: FileText },
+    { id: 'anomaly' as const, label: 'Anomalies', icon: Radar },
     { id: 'ingest' as const, label: 'Data', icon: Database },
   ];
 
