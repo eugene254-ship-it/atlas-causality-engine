@@ -46,7 +46,7 @@ const CausalGraphNode = memo(({ data, id }: NodeProps<CausalNodeData>) => {
           backgroundColor: `hsl(220, 18%, ${isSelected ? 14 : 11}%)`,
           borderColor: isSelected ? color : `${color}44`,
           boxShadow: isSelected ? `0 0 20px ${color}33` : isHovered ? `0 0 12px ${color}22` : 'none',
-          ringColor: color,
+          
         }}
       >
         {/* Domain icon + label */}
