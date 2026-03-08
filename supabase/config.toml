@@ -1,1 +1,4 @@
 project_id = "ryvhluvvstijrgwukdqt"
+
+[functions.explain-causal]
+verify_jwt = false
