@@ -9,6 +9,7 @@ export default function DashboardHeader() {
     { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
     { id: 'compare' as const, label: 'Compare', icon: GitCompare },
     { id: 'scenario' as const, label: 'Scenario', icon: FlaskConical },
+    { id: 'ranking' as const, label: 'Impact Ranking', icon: BarChart3 },
   ];
 
   return (
