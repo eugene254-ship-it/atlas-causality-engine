@@ -1,11 +1,14 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database, Radar } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database, Radar, Home, LogOut } from 'lucide-react';
 import ExportPDFButton from '@/components/panels/ExportPDFButton';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
+  const { user, signOut } = useAuth();
 
   const views = [
+    { id: 'home' as const, label: 'Home', icon: Home },
     { id: 'overview' as const, label: 'Overview', icon: Eye },
     { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
     { id: 'compare' as const, label: 'Compare', icon: GitCompare },
