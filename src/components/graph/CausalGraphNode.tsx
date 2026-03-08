@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import { CausalNode } from '@/data/causalData';
 import { domainColors, domainIcons, severityColors } from '@/lib/domainUtils';
@@ -8,15 +8,31 @@ interface CausalNodeData {
   node: CausalNode;
 }
 
+// Derive dynamic severity from trend value at timeline position
+function getDynamicSeverity(trendValue: number): 'critical' | 'high' | 'medium' | 'low' {
+  if (trendValue >= 70) return 'critical';
+  if (trendValue >= 50) return 'high';
+  if (trendValue >= 30) return 'medium';
+  return 'low';
+}
+
 const CausalGraphNode = memo(({ data, id }: NodeProps<CausalNodeData>) => {
   const { node } = data;
-  const { selectedNodeId, hoveredNodeId, setSelectedNode, setHoveredNode } = useDashboardStore();
+  const { selectedNodeId, hoveredNodeId, setSelectedNode, setHoveredNode, timelinePosition } = useDashboardStore();
   
   const isSelected = selectedNodeId === id;
   const isHovered = hoveredNodeId === id;
   const color = domainColors[node.domain];
   const icon = domainIcons[node.domain];
-  const sevColor = severityColors[node.severity];
+
+  // Timeline-driven animation: use trendData at current position
+  const trendValue = node.trendData[timelinePosition] ?? node.trendData[node.trendData.length - 1];
+  const dynamicSeverity = useMemo(() => getDynamicSeverity(trendValue), [trendValue]);
+  const sevColor = severityColors[dynamicSeverity];
+  
+  // Intensity scales with trend value (0-100)
+  const intensity = trendValue / 100;
+  const shouldPulse = dynamicSeverity === 'critical';
   
   const handleClick = useCallback(() => {
     setSelectedNode(isSelected ? null : id);
@@ -31,22 +47,29 @@ const CausalGraphNode = memo(({ data, id }: NodeProps<CausalNodeData>) => {
     >
       <Handle type="target" position={Position.Left} className="!bg-transparent !border-0 !w-3 !h-3" />
       
-      {/* Severity ring */}
+      {/* Severity ring - animated by timeline */}
       <div
-        className={`absolute -inset-1 rounded-xl opacity-30 ${node.severity === 'critical' ? 'severity-pulse' : ''}`}
-        style={{ backgroundColor: sevColor }}
+        className={`absolute -inset-1 rounded-xl transition-all duration-500 ${shouldPulse ? 'severity-pulse' : ''}`}
+        style={{ 
+          backgroundColor: sevColor,
+          opacity: 0.15 + intensity * 0.25,
+          transform: `scale(${1 + intensity * 0.05})`,
+        }}
       />
       
       {/* Main node */}
       <div
-        className={`relative rounded-lg px-4 py-3 min-w-[160px] max-w-[200px] border transition-all duration-200 ${
+        className={`relative rounded-lg px-4 py-3 min-w-[160px] max-w-[200px] border transition-all duration-500 ${
           isSelected ? 'ring-2 ring-offset-1 ring-offset-background scale-105' : ''
         } ${isHovered ? 'scale-102' : ''}`}
         style={{
           backgroundColor: `hsl(220, 18%, ${isSelected ? 14 : 11}%)`,
           borderColor: isSelected ? color : `${color}44`,
-          boxShadow: isSelected ? `0 0 20px ${color}33` : isHovered ? `0 0 12px ${color}22` : 'none',
-          
+          boxShadow: isSelected 
+            ? `0 0 20px ${color}33` 
+            : isHovered 
+              ? `0 0 12px ${color}22` 
+              : `0 0 ${Math.round(intensity * 8)}px ${sevColor}${Math.round(intensity * 30).toString(16).padStart(2, '0')}`,
         }}
       >
         {/* Domain icon + label */}
@@ -65,21 +88,23 @@ const CausalGraphNode = memo(({ data, id }: NodeProps<CausalNodeData>) => {
           {node.label}
         </div>
         
-        {/* Value */}
+        {/* Dynamic value based on timeline */}
         {node.currentValue && (
-          <div className="text-xs font-mono" style={{ color }}>
+          <div className="text-xs font-mono transition-colors duration-300" style={{ color }}>
             {node.currentValue}
           </div>
         )}
         
-        {/* Bottom stats */}
+        {/* Bottom stats - shows dynamic severity */}
         <div className="flex items-center gap-2 mt-2 text-[10px] text-muted-foreground">
-          <span className="flex items-center gap-0.5">
+          <span className="flex items-center gap-0.5 transition-colors duration-300">
             <span style={{ color: sevColor }}>●</span>
-            {node.severity}
+            {dynamicSeverity}
           </span>
           <span>·</span>
           <span>{node.evidenceCount} sources</span>
+          <span>·</span>
+          <span className="font-mono" style={{ color: sevColor }}>{Math.round(trendValue)}%</span>
         </div>
 
         {/* Intervention badge */}

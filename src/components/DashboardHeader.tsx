@@ -1,5 +1,5 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical } from 'lucide-react';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3 } from 'lucide-react';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
@@ -9,6 +9,7 @@ export default function DashboardHeader() {
     { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
     { id: 'compare' as const, label: 'Compare', icon: GitCompare },
     { id: 'scenario' as const, label: 'Scenario', icon: FlaskConical },
+    { id: 'ranking' as const, label: 'Impact Ranking', icon: BarChart3 },
   ];
 
   return (
