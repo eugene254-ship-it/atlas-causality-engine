@@ -22,17 +22,19 @@ export default function TimelinePlayback() {
     setIsPlaying(true);
   }, []);
 
+  const posRef = useRef(timelinePosition);
+  posRef.current = timelinePosition;
+
   useEffect(() => {
     if (!isPlaying) return;
     
     intervalRef.current = setInterval(() => {
-      setTimelinePosition((prev: number) => {
-        if (prev >= 11) {
-          stopPlayback();
-          return 11;
-        }
-        return prev + 1;
-      });
+      const next = posRef.current + 1;
+      if (next > 11) {
+        stopPlayback();
+        return;
+      }
+      setTimelinePosition(next);
     }, playbackSpeed);
 
     return () => {
