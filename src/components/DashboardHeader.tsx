@@ -64,6 +64,8 @@ export default function DashboardHeader() {
           </button>
         )}
 
+        <ExportPDFButton />
+
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-destructive/10">
             <AlertTriangle size={11} className="text-destructive" />
