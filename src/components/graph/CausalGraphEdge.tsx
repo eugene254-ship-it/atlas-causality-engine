@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
-import { CausalEdge, Confidence } from '@/data/causalData';
+import { CausalEdge, Confidence, getNodeById } from '@/data/causalData';
 import { useDashboardStore } from '@/store/dashboardStore';
 
 interface CausalEdgeData {
@@ -25,30 +25,30 @@ const CausalGraphEdge = memo(({
   markerEnd,
 }: EdgeProps<CausalEdgeData>) => {
   const { edge } = data!;
-  const { selectedNodeId, selectedEdgeId, setSelectedEdge } = useDashboardStore();
+  const { selectedNodeId, selectedEdgeId, setSelectedEdge, timelinePosition } = useDashboardStore();
 
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX, sourceY, targetX, targetY,
     sourcePosition, targetPosition,
   });
 
+  // Timeline-driven: modulate stroke width based on source node's trend intensity
+  const sourceNode = useMemo(() => getNodeById(edge.sourceId), [edge.sourceId]);
+  const sourceTrend = sourceNode ? (sourceNode.trendData[timelinePosition] ?? 50) / 100 : 0.5;
+
   const isRelated = selectedNodeId === edge.sourceId || selectedNodeId === edge.targetId;
   const isSelected = selectedEdgeId === id;
   const isDimmed = selectedNodeId && !isRelated;
 
-  const strokeWidth = 1 + edge.influenceStrength * 3;
+  const baseStrokeWidth = 1 + edge.influenceStrength * 3;
+  const strokeWidth = baseStrokeWidth * (0.4 + sourceTrend * 0.6); // scale with timeline
   const baseColor = edge.polarity === 'positive' ? 'hsl(38, 80%, 55%)' : 'hsl(174, 60%, 50%)';
-  const opacity = isDimmed ? 0.1 : isRelated || isSelected ? 1 : 0.5;
+  const opacity = isDimmed ? 0.1 : isRelated || isSelected ? 1 : 0.3 + sourceTrend * 0.4;
 
   return (
     <g onClick={() => setSelectedEdge(isSelected ? null : id)} className="cursor-pointer">
       {/* Invisible wider path for easier clicking */}
-      <path
-        d={edgePath}
-        fill="none"
-        stroke="transparent"
-        strokeWidth={20}
-      />
+      <path d={edgePath} fill="none" stroke="transparent" strokeWidth={20} />
       {/* Glow */}
       {(isRelated || isSelected) && (
         <path
@@ -57,7 +57,6 @@ const CausalGraphEdge = memo(({
           stroke={baseColor}
           strokeWidth={strokeWidth + 4}
           strokeOpacity={0.15}
-          className="animate-flow-pulse"
         />
       )}
       {/* Main edge */}
@@ -69,7 +68,7 @@ const CausalGraphEdge = memo(({
         strokeOpacity={opacity}
         strokeDasharray={confidenceStroke[edge.confidence]}
         markerEnd={markerEnd}
-        className="transition-all duration-300"
+        style={{ transition: 'stroke-width 0.5s, stroke-opacity 0.5s' }}
       />
       {/* Strength label */}
       {(isRelated || isSelected) && (
