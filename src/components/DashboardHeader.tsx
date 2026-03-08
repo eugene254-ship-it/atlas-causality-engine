@@ -12,6 +12,8 @@ export default function DashboardHeader() {
     { id: 'ranking' as const, label: 'Impact Ranking', icon: BarChart3 },
     { id: 'breakchain' as const, label: 'Break Chain', icon: Shield },
     { id: 'map' as const, label: 'Map', icon: Map },
+    { id: 'briefing' as const, label: 'Briefing', icon: FileText },
+    { id: 'ingest' as const, label: 'Data', icon: Database },
   ];
 
   return (

@@ -89,6 +89,8 @@ const Index = () => {
         {activeView === 'ranking' && <ImpactRankingTable />}
         {activeView === 'breakchain' && <BreakTheChainView />}
         {activeView === 'map' && <MapView />}
+        {activeView === 'briefing' && <PolicyBriefingView />}
+        {activeView === 'ingest' && <DataIngestionView />}
       </div>
     </div>
   );
