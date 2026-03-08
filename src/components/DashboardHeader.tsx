@@ -75,9 +75,14 @@ export default function DashboardHeader() {
             <AlertTriangle size={11} className="text-destructive" />
             <span className="text-[10px] font-mono text-destructive">3 Critical</span>
           </div>
-          <div className="text-[10px] font-mono text-muted-foreground">
-            Updated 2h ago
-          </div>
+          {user && (
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[120px]">{user.email}</span>
+              <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" title="Sign out">
+                <LogOut size={12} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

@@ -24,7 +24,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   selectedEdgeId: null,
   hoveredNodeId: null,
   timelinePosition: 11,
-  activeView: 'overview',
+  activeView: 'home',
   showInterventions: false,
   confidenceFilter: 'all',
   domainFilter: [],
