@@ -16,6 +16,8 @@ import ScenarioMode from '@/components/views/ScenarioMode';
 import ImpactRankingTable from '@/components/panels/ImpactRankingTable';
 import BreakTheChainView from '@/components/views/BreakTheChainView';
 import MapView from '@/components/views/MapView';
+import PolicyBriefingView from '@/components/views/PolicyBriefingView';
+import DataIngestionView from '@/components/views/DataIngestionView';
 
 const Index = () => {
   const { selectedNodeId, selectedEdgeId, showInterventions, activeView } = useDashboardStore();
