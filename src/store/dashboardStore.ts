@@ -4,8 +4,8 @@ interface DashboardState {
   selectedNodeId: string | null;
   selectedEdgeId: string | null;
   hoveredNodeId: string | null;
-  timelinePosition: number; // 0-11 for months
-  activeView: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking';
+  timelinePosition: number;
+  activeView: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking' | 'breakchain' | 'map';
   showInterventions: boolean;
   confidenceFilter: 'all' | 'high' | 'medium' | 'low';
   domainFilter: string[];
@@ -13,7 +13,7 @@ interface DashboardState {
   setSelectedEdge: (id: string | null) => void;
   setHoveredNode: (id: string | null) => void;
   setTimelinePosition: (pos: number) => void;
-  setActiveView: (view: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking') => void;
+  setActiveView: (view: DashboardState['activeView']) => void;
   toggleInterventions: () => void;
   setConfidenceFilter: (filter: 'all' | 'high' | 'medium' | 'low') => void;
   toggleDomainFilter: (domain: string) => void;

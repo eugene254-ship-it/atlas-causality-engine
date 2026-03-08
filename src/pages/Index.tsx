@@ -10,9 +10,12 @@ import TimelinePlayback from '@/components/panels/TimelinePlayback';
 import ChainSummaryRibbon from '@/components/panels/ChainSummaryRibbon';
 import FilterControls from '@/components/panels/FilterControls';
 import ExplainThisButton from '@/components/panels/ExplainThisButton';
+import ShowAlternativesButton from '@/components/panels/ShowAlternativesButton';
 import CompareMode from '@/components/views/CompareMode';
 import ScenarioMode from '@/components/views/ScenarioMode';
 import ImpactRankingTable from '@/components/panels/ImpactRankingTable';
+import BreakTheChainView from '@/components/views/BreakTheChainView';
+import MapView from '@/components/views/MapView';
 
 const Index = () => {
   const { selectedNodeId, selectedEdgeId, showInterventions, activeView } = useDashboardStore();
@@ -61,6 +64,7 @@ const Index = () => {
                       <EdgeInspector />
                     </div>
                     <ExplainThisButton />
+                    <ShowAlternativesButton />
                   </>
                 )}
                 {showInterventions && !selectedNodeId && !selectedEdgeId && (
@@ -81,6 +85,8 @@ const Index = () => {
         {activeView === 'compare' && <CompareMode />}
         {activeView === 'scenario' && <ScenarioMode />}
         {activeView === 'ranking' && <ImpactRankingTable />}
+        {activeView === 'breakchain' && <BreakTheChainView />}
+        {activeView === 'map' && <MapView />}
       </div>
     </div>
   );

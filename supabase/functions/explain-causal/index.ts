@@ -58,6 +58,48 @@ Alternative Hypotheses: ${context.alternateHypotheses?.join("; ") || "None"}
 Evidence Sources: ${context.evidenceSources?.join(", ") || "Not specified"}
 
 Explain the causal mechanism, evidence quality, key uncertainties, and what policy leaders should know about this link.`;
+    } else if (type === "alternatives") {
+      userPrompt = `Generate competing alternative explanations for this causal link, ranked by plausibility:
+
+Link: ${context.sourceLabel} (${context.sourceDomain}) → ${context.targetLabel} (${context.targetDomain})
+Current Mechanism: ${context.mechanism}
+Influence Strength: ${Math.round(context.influenceStrength * 100)}%
+Confidence: ${context.confidence}
+Known Confounders: ${context.confounders?.join(", ") || "None identified"}
+Existing Alternative Hypotheses: ${context.alternateHypotheses?.join("; ") || "None"}
+Evidence Sources: ${context.evidenceSources?.join(", ") || "Not specified"}
+
+Provide 3-4 competing explanations for the observed relationship between ${context.sourceLabel} and ${context.targetLabel}. For each:
+1. Name the alternative hypothesis
+2. Rate its plausibility (High/Medium/Low)
+3. Explain the mechanism
+4. Note what evidence would confirm or refute it
+
+Rank them from most to least plausible. Use markdown formatting with headers.`;
+    } else if (type === "break_chain") {
+      userPrompt = `Recommend intervention strategy for breaking the causal chain at this node:
+
+Node: ${context.label}
+Domain: ${context.domain}
+Current Value: ${context.currentValue || "N/A"}
+Severity: ${context.severity}
+Confidence: ${context.confidence}
+Description: ${context.description}
+Downstream Effects: ${context.downstreamNodes?.join(", ") || "None"}
+
+Available Interventions:
+${context.availableInterventions?.map((i: { label: string; estimatedImpact: number; timeToEffect: string; costBand: string; risks: string[] }) =>
+  `- ${i.label}: Impact ${Math.round(i.estimatedImpact * 100)}%, Time ${i.timeToEffect}, Cost ${i.costBand}, Risks: ${i.risks.join(", ")}`
+).join("\n") || "None defined"}
+
+Provide a strategic recommendation for policy leaders:
+1. Which intervention(s) to prioritize and why
+2. Sequencing and timing considerations
+3. Key risks and mitigations
+4. Expected downstream impact reduction
+5. What to monitor for effectiveness
+
+Be specific, actionable, and honest about trade-offs. Use markdown formatting.`;
     }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
