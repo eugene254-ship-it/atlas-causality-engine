@@ -92,6 +92,7 @@ const Index = () => {
         {activeView === 'map' && <MapView />}
         {activeView === 'briefing' && <PolicyBriefingView />}
         {activeView === 'ingest' && <DataIngestionView />}
+        {activeView === 'anomaly' && <AnomalyDetectionView />}
       </div>
     </div>
   );

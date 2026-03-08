@@ -139,6 +139,8 @@ export default function EdgeInspector() {
               </div>
             </div>
           )}
+
+          <AnnotationsPanel targetType="edge" targetId={edge.id} />
         </div>
       </motion.div>
     </AnimatePresence>

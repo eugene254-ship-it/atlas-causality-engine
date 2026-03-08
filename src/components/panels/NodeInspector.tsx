@@ -180,6 +180,8 @@ export default function NodeInspector() {
               </p>
             </div>
           )}
+
+          <AnnotationsPanel targetType="node" targetId={node.id} />
         </div>
       </motion.div>
     </AnimatePresence>
