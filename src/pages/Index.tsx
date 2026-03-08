@@ -12,6 +12,7 @@ import FilterControls from '@/components/panels/FilterControls';
 import ExplainThisButton from '@/components/panels/ExplainThisButton';
 import CompareMode from '@/components/views/CompareMode';
 import ScenarioMode from '@/components/views/ScenarioMode';
+import ImpactRankingTable from '@/components/panels/ImpactRankingTable';
 
 const Index = () => {
   const { selectedNodeId, selectedEdgeId, showInterventions, activeView } = useDashboardStore();
