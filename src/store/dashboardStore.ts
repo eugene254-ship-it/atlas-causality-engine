@@ -13,7 +13,7 @@ interface DashboardState {
   setSelectedEdge: (id: string | null) => void;
   setHoveredNode: (id: string | null) => void;
   setTimelinePosition: (pos: number) => void;
-  setActiveView: (view: 'overview' | 'investigation' | 'compare' | 'scenario') => void;
+  setActiveView: (view: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking') => void;
   toggleInterventions: () => void;
   setConfidenceFilter: (filter: 'all' | 'high' | 'medium' | 'low') => void;
   toggleDomainFilter: (domain: string) => void;
