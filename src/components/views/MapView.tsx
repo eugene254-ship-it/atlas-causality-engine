@@ -92,7 +92,7 @@ export default function MapView() {
           ))}
 
           {/* Connection lines */}
-          {connections.map((conn: { id: string; from: { x: number; y: number }; to: { x: number; y: number }; influenceStrength: number; polarity: string }) => (
+          {connections.map(conn => (
             <line
               key={conn.id}
               x1={conn.from.x}
