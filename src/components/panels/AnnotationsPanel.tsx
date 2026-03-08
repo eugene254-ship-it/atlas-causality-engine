@@ -59,15 +59,16 @@ export default function AnnotationsPanel({ targetType, targetId }: { targetType:
   }, [targetType, targetId]);
 
   const addAnnotation = async () => {
-    if (!newContent.trim()) return;
+    if (!newContent.trim() || !user) return;
     setIsLoading(true);
     await supabase.from('annotations').insert({
       target_type: targetType,
       target_id: targetId,
       content: newContent.trim(),
-      author_name: authorName.trim() || 'Anonymous',
+      author_name: user.user_metadata?.display_name || user.email || 'Anonymous',
       color: selectedColor,
-    });
+      user_id: user.id,
+    } as any);
     setNewContent('');
     setIsLoading(false);
   };
