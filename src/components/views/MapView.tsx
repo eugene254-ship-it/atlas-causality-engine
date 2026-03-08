@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { nodes } from '@/data/causalData';
+import { nodes, edges as causalEdges } from '@/data/causalData';
 import { domainColors, domainIcons, severityColors } from '@/lib/domainUtils';
 import { MapPin, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
