@@ -40,13 +40,12 @@ export default function MapView() {
 
   // Connection lines between geographically placed nodes
   const connections = useMemo(() => {
-    const { edges } = require('@/data/causalData');
-    return edges.map((edge: { id: string; sourceId: string; targetId: string; influenceStrength: number; polarity: string }) => {
+    return causalEdges.map(edge => {
       const from = geoPositions[edge.sourceId];
       const to = geoPositions[edge.targetId];
       if (!from || !to) return null;
       return { ...edge, from, to };
-    }).filter(Boolean);
+    }).filter(Boolean) as Array<typeof causalEdges[0] & { from: { x: number; y: number }; to: { x: number; y: number } }>;
   }, []);
 
   return (
