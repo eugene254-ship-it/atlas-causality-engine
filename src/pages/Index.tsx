@@ -80,6 +80,7 @@ const Index = () => {
 
         {activeView === 'compare' && <CompareMode />}
         {activeView === 'scenario' && <ScenarioMode />}
+        {activeView === 'ranking' && <ImpactRankingTable />}
       </div>
     </div>
   );
