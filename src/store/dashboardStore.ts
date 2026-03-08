@@ -5,7 +5,7 @@ interface DashboardState {
   selectedEdgeId: string | null;
   hoveredNodeId: string | null;
   timelinePosition: number;
-  activeView: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking' | 'breakchain' | 'map';
+  activeView: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking' | 'breakchain' | 'map' | 'briefing' | 'ingest';
   showInterventions: boolean;
   confidenceFilter: 'all' | 'high' | 'medium' | 'low';
   domainFilter: string[];
