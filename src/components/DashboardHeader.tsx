@@ -1,0 +1,74 @@
+import { useDashboardStore } from '@/store/dashboardStore';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch } from 'lucide-react';
+
+export default function DashboardHeader() {
+  const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
+
+  const views = [
+    { id: 'overview' as const, label: 'Overview', icon: Eye },
+    { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
+  ];
+
+  return (
+    <header className="h-12 border-b border-border bg-card/80 backdrop-blur-sm flex items-center justify-between px-4">
+      <div className="flex items-center gap-4">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center">
+            <Activity size={14} className="text-primary" />
+          </div>
+          <h1 className="text-sm font-semibold text-foreground tracking-tight">
+            Atlas <span className="text-muted-foreground font-normal">Causality</span>
+          </h1>
+        </div>
+
+        {/* Divider */}
+        <div className="w-px h-5 bg-border" />
+
+        {/* View tabs */}
+        <div className="flex items-center gap-1">
+          {views.map(v => (
+            <button
+              key={v.id}
+              onClick={() => setActiveView(v.id)}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+                activeView === v.id
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+              }`}
+            >
+              <v.icon size={12} />
+              {v.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        {/* Intervention toggle */}
+        <button
+          onClick={toggleInterventions}
+          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+            showInterventions
+              ? 'bg-primary/10 text-primary'
+              : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+          }`}
+        >
+          <Zap size={12} />
+          Interventions
+        </button>
+
+        {/* Status badges */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-destructive/10">
+            <AlertTriangle size={11} className="text-destructive" />
+            <span className="text-[10px] font-mono text-destructive">3 Critical</span>
+          </div>
+          <div className="text-[10px] font-mono text-muted-foreground">
+            Updated 2h ago
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
