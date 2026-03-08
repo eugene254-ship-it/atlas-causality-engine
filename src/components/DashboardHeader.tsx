@@ -1,5 +1,6 @@
 import { useDashboardStore } from '@/store/dashboardStore';
 import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database } from 'lucide-react';
+import ExportPDFButton from '@/components/panels/ExportPDFButton';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
@@ -62,6 +63,8 @@ export default function DashboardHeader() {
             Interventions
           </button>
         )}
+
+        <ExportPDFButton />
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-destructive/10">
