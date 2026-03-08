@@ -8,47 +8,77 @@ import EdgeInspector from '@/components/panels/EdgeInspector';
 import InterventionPanel from '@/components/panels/InterventionPanel';
 import TimelinePlayback from '@/components/panels/TimelinePlayback';
 import ChainSummaryRibbon from '@/components/panels/ChainSummaryRibbon';
+import FilterControls from '@/components/panels/FilterControls';
+import ExplainThisButton from '@/components/panels/ExplainThisButton';
+import CompareMode from '@/components/views/CompareMode';
+import ScenarioMode from '@/components/views/ScenarioMode';
 
 const Index = () => {
-  const { selectedNodeId, selectedEdgeId, showInterventions } = useDashboardStore();
+  const { selectedNodeId, selectedEdgeId, showInterventions, activeView } = useDashboardStore();
   const showRightPanel = !!selectedNodeId || !!selectedEdgeId || showInterventions;
+  const isGraphView = activeView === 'overview' || activeView === 'investigation';
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden">
       <DashboardHeader />
-      <ChainSummaryRibbon />
+      
+      {isGraphView && <ChainSummaryRibbon />}
       
       <div className="flex-1 flex overflow-hidden">
-        {/* Left panel: Root Drivers */}
-        <div className="w-72 border-r border-border flex-shrink-0 overflow-hidden">
-          <RootDriversPanel />
-        </div>
+        {isGraphView && (
+          <>
+            {/* Left panel */}
+            <div className="w-72 border-r border-border flex-shrink-0 overflow-hidden flex flex-col">
+              <FilterControls />
+              <div className="flex-1 overflow-hidden">
+                <RootDriversPanel />
+              </div>
+            </div>
 
-        {/* Center: Graph + Timeline */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 relative">
-            <CausalCanvas />
-          </div>
-          <TimelinePlayback />
-        </div>
+            {/* Center */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex-1 relative">
+                <CausalCanvas />
+              </div>
+              <TimelinePlayback />
+            </div>
 
-        {/* Right panel: Inspector / Interventions */}
-        {showRightPanel && (
-          <div className="w-80 flex-shrink-0 overflow-hidden flex flex-col">
-            {selectedNodeId && <NodeInspector />}
-            {selectedEdgeId && !selectedNodeId && <EdgeInspector />}
-            {showInterventions && !selectedNodeId && !selectedEdgeId && (
-              <InterventionPanel />
+            {/* Right panel */}
+            {showRightPanel && (
+              <div className="w-80 flex-shrink-0 overflow-hidden flex flex-col">
+                {selectedNodeId && (
+                  <>
+                    <div className="flex-1 overflow-hidden">
+                      <NodeInspector />
+                    </div>
+                    <ExplainThisButton />
+                  </>
+                )}
+                {selectedEdgeId && !selectedNodeId && (
+                  <>
+                    <div className="flex-1 overflow-hidden">
+                      <EdgeInspector />
+                    </div>
+                    <ExplainThisButton />
+                  </>
+                )}
+                {showInterventions && !selectedNodeId && !selectedEdgeId && (
+                  <InterventionPanel />
+                )}
+              </div>
             )}
-          </div>
+
+            {/* Downstream */}
+            {selectedNodeId && (
+              <div className="w-64 border-l border-border flex-shrink-0 overflow-hidden">
+                <DownstreamPanel />
+              </div>
+            )}
+          </>
         )}
 
-        {/* Downstream panel when node selected */}
-        {selectedNodeId && (
-          <div className="w-64 border-l border-border flex-shrink-0 overflow-hidden">
-            <DownstreamPanel />
-          </div>
-        )}
+        {activeView === 'compare' && <CompareMode />}
+        {activeView === 'scenario' && <ScenarioMode />}
       </div>
     </div>
   );
