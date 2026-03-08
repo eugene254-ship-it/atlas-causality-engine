@@ -23,6 +23,7 @@ export type Database = {
           id: string
           target_id: string
           target_type: string
+          user_id: string | null
         }
         Insert: {
           author_name?: string
@@ -32,6 +33,7 @@ export type Database = {
           id?: string
           target_id: string
           target_type: string
+          user_id?: string | null
         }
         Update: {
           author_name?: string
@@ -41,6 +43,31 @@ export type Database = {
           id?: string
           target_id?: string
           target_type?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
         }
         Relationships: []
       }

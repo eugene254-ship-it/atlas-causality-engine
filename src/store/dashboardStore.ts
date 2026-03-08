@@ -5,7 +5,7 @@ interface DashboardState {
   selectedEdgeId: string | null;
   hoveredNodeId: string | null;
   timelinePosition: number;
-  activeView: 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking' | 'breakchain' | 'map' | 'briefing' | 'ingest' | 'anomaly';
+  activeView: 'home' | 'overview' | 'investigation' | 'compare' | 'scenario' | 'ranking' | 'breakchain' | 'map' | 'briefing' | 'ingest' | 'anomaly';
   showInterventions: boolean;
   confidenceFilter: 'all' | 'high' | 'medium' | 'low';
   domainFilter: string[];
@@ -24,7 +24,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   selectedEdgeId: null,
   hoveredNodeId: null,
   timelinePosition: 11,
-  activeView: 'overview',
+  activeView: 'home',
   showInterventions: false,
   confidenceFilter: 'all',
   domainFilter: [],

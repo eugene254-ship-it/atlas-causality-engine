@@ -1,11 +1,14 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database, Radar } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database, Radar, Home, LogOut } from 'lucide-react';
 import ExportPDFButton from '@/components/panels/ExportPDFButton';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
+  const { user, signOut } = useAuth();
 
   const views = [
+    { id: 'home' as const, label: 'Home', icon: Home },
     { id: 'overview' as const, label: 'Overview', icon: Eye },
     { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
     { id: 'compare' as const, label: 'Compare', icon: GitCompare },
@@ -72,9 +75,14 @@ export default function DashboardHeader() {
             <AlertTriangle size={11} className="text-destructive" />
             <span className="text-[10px] font-mono text-destructive">3 Critical</span>
           </div>
-          <div className="text-[10px] font-mono text-muted-foreground">
-            Updated 2h ago
-          </div>
+          {user && (
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[120px]">{user.email}</span>
+              <button onClick={signOut} className="text-muted-foreground hover:text-foreground transition-colors" title="Sign out">
+                <LogOut size={12} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>

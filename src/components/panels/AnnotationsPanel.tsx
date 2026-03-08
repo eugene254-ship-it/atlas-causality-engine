@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { useDashboardStore } from '@/store/dashboardStore';
 import { MessageSquarePlus, Send, Trash2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,10 +24,10 @@ const NOTE_COLORS = [
 ];
 
 export default function AnnotationsPanel({ targetType, targetId }: { targetType: 'node' | 'edge'; targetId: string }) {
+  const { user } = useAuth();
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [newContent, setNewContent] = useState('');
-  const [authorName, setAuthorName] = useState('');
   const [selectedColor, setSelectedColor] = useState(NOTE_COLORS[0]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -58,15 +59,16 @@ export default function AnnotationsPanel({ targetType, targetId }: { targetType:
   }, [targetType, targetId]);
 
   const addAnnotation = async () => {
-    if (!newContent.trim()) return;
+    if (!newContent.trim() || !user) return;
     setIsLoading(true);
     await supabase.from('annotations').insert({
       target_type: targetType,
       target_id: targetId,
       content: newContent.trim(),
-      author_name: authorName.trim() || 'Anonymous',
+      author_name: user.user_metadata?.display_name || user.email || 'Anonymous',
       color: selectedColor,
-    });
+      user_id: user.id,
+    } as any);
     setNewContent('');
     setIsLoading(false);
   };
@@ -105,13 +107,6 @@ export default function AnnotationsPanel({ targetType, targetId }: { targetType:
             <div className="px-4 pb-3 space-y-2">
               {/* Input */}
               <div className="space-y-2">
-                <input
-                  type="text"
-                  value={authorName}
-                  onChange={e => setAuthorName(e.target.value)}
-                  placeholder="Your name…"
-                  className="w-full px-2.5 py-1.5 rounded text-[11px] bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-                />
                 <div className="flex gap-1.5">
                   <textarea
                     value={newContent}
