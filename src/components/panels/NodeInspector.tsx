@@ -3,6 +3,7 @@ import { getNodeById, getUpstreamNodes, getDownstreamNodes } from '@/data/causal
 import { domainColors, domainIcons, severityColors, confidenceLabels } from '@/lib/domainUtils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import AnnotationsPanel from '@/components/panels/AnnotationsPanel';
 
 function Sparkline({ data, color }: { data: number[]; color: string }) {
   const max = Math.max(...data);
@@ -179,6 +180,8 @@ export default function NodeInspector() {
               </p>
             </div>
           )}
+
+          <AnnotationsPanel targetType="node" targetId={node.id} />
         </div>
       </motion.div>
     </AnimatePresence>

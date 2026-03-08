@@ -100,7 +100,7 @@ Provide a strategic recommendation for policy leaders:
 5. What to monitor for effectiveness
 
 Be specific, actionable, and honest about trade-offs. Use markdown formatting.`;
-    } else if (type === "policy_briefing") {
+  } else if (type === "policy_briefing") {
       userPrompt = `Generate a comprehensive policy briefing document based on this causal chain analysis:
 
 ## Chain Overview
@@ -131,39 +131,29 @@ ${context.domainBreakdown?.map(([d, c]: [string, number]) => `- ${d}: ${c} facto
 
 ---
 
-Generate a structured policy briefing document with these sections:
+Generate a structured policy briefing with: Executive Summary, Situation Assessment, Risk Assessment, Causal Analysis, Recommended Actions (Immediate/Short-term/Medium-term), Resource Requirements, Monitoring Framework, and Confidence & Limitations. Use markdown formatting. Be specific, data-driven, and actionable.`;
+    } else if (type === "anomaly_analysis") {
+      userPrompt = `Analyze this anomaly detected in trend monitoring data:
 
-# POLICY BRIEFING: East Africa Causal Crisis Assessment
+Node: ${context.nodeLabel}
+Domain: ${context.domain}
+Anomaly Type: ${context.anomalyType}
+Month: ${context.month}
+Magnitude: ${context.magnitude}
+Current Severity: ${context.severity}
+Current Value: ${context.currentValue || "N/A"}
 
-## 1. EXECUTIVE SUMMARY
-A 3-4 sentence overview suitable for senior leaders. State the core problem, trajectory, and urgency level.
+Trend Data (12 months): ${context.trendData}
 
-## 2. SITUATION ASSESSMENT
-Current state of the causal chain. What's happening, how fast, and where.
+Description: ${context.description}
 
-## 3. RISK ASSESSMENT
-### Critical Risks
-### Emerging Risks
-### Risk Trajectory (next 30/60/90 days)
+Provide a brief analysis (2-3 paragraphs):
+1. What likely caused this anomaly
+2. Whether it signals a systemic shift or is likely transient
+3. What actions should be taken in response
+4. What to monitor going forward
 
-## 4. CAUSAL ANALYSIS
-Key causal pathways and their significance. Which links are strongest and most concerning.
-
-## 5. RECOMMENDED ACTIONS (Prioritized)
-### Immediate (0-2 weeks)
-### Short-term (2-8 weeks)
-### Medium-term (2-6 months)
-
-## 6. RESOURCE REQUIREMENTS
-Estimated costs, personnel, and coordination needs.
-
-## 7. MONITORING FRAMEWORK
-Key indicators to track effectiveness.
-
-## 8. CONFIDENCE & LIMITATIONS
-What we know, what we don't, and where uncertainty is highest.
-
-Use markdown formatting. Be specific, data-driven, and actionable. This is for senior policy leaders who need to make decisions today.`;
+Be specific and reference the data points provided.`;
     }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {

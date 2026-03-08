@@ -18,6 +18,7 @@ import BreakTheChainView from '@/components/views/BreakTheChainView';
 import MapView from '@/components/views/MapView';
 import PolicyBriefingView from '@/components/views/PolicyBriefingView';
 import DataIngestionView from '@/components/views/DataIngestionView';
+import AnomalyDetectionView from '@/components/views/AnomalyDetectionView';
 
 const Index = () => {
   const { selectedNodeId, selectedEdgeId, showInterventions, activeView } = useDashboardStore();
@@ -91,6 +92,7 @@ const Index = () => {
         {activeView === 'map' && <MapView />}
         {activeView === 'briefing' && <PolicyBriefingView />}
         {activeView === 'ingest' && <DataIngestionView />}
+        {activeView === 'anomaly' && <AnomalyDetectionView />}
       </div>
     </div>
   );

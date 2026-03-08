@@ -1,5 +1,5 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database } from 'lucide-react';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical, BarChart3, Shield, Map, FileText, Database, Radar } from 'lucide-react';
 import ExportPDFButton from '@/components/panels/ExportPDFButton';
 
 export default function DashboardHeader() {
@@ -14,6 +14,7 @@ export default function DashboardHeader() {
     { id: 'breakchain' as const, label: 'Break Chain', icon: Shield },
     { id: 'map' as const, label: 'Map', icon: Map },
     { id: 'briefing' as const, label: 'Briefing', icon: FileText },
+    { id: 'anomaly' as const, label: 'Anomalies', icon: Radar },
     { id: 'ingest' as const, label: 'Data', icon: Database },
   ];
 
