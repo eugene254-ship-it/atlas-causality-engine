@@ -1,5 +1,5 @@
 import { useDashboardStore } from '@/store/dashboardStore';
-import { AlertTriangle, Activity, Zap, Eye, GitBranch } from 'lucide-react';
+import { AlertTriangle, Activity, Zap, Eye, GitBranch, GitCompare, FlaskConical } from 'lucide-react';
 
 export default function DashboardHeader() {
   const { activeView, setActiveView, showInterventions, toggleInterventions } = useDashboardStore();
@@ -7,12 +7,13 @@ export default function DashboardHeader() {
   const views = [
     { id: 'overview' as const, label: 'Overview', icon: Eye },
     { id: 'investigation' as const, label: 'Investigation', icon: GitBranch },
+    { id: 'compare' as const, label: 'Compare', icon: GitCompare },
+    { id: 'scenario' as const, label: 'Scenario', icon: FlaskConical },
   ];
 
   return (
     <header className="h-12 border-b border-border bg-card/80 backdrop-blur-sm flex items-center justify-between px-4">
       <div className="flex items-center gap-4">
-        {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center">
             <Activity size={14} className="text-primary" />
@@ -22,10 +23,8 @@ export default function DashboardHeader() {
           </h1>
         </div>
 
-        {/* Divider */}
         <div className="w-px h-5 bg-border" />
 
-        {/* View tabs */}
         <div className="flex items-center gap-1">
           {views.map(v => (
             <button
@@ -45,20 +44,20 @@ export default function DashboardHeader() {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Intervention toggle */}
-        <button
-          onClick={toggleInterventions}
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
-            showInterventions
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-          }`}
-        >
-          <Zap size={12} />
-          Interventions
-        </button>
+        {(activeView === 'overview' || activeView === 'investigation') && (
+          <button
+            onClick={toggleInterventions}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+              showInterventions
+                ? 'bg-primary/10 text-primary'
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+            }`}
+          >
+            <Zap size={12} />
+            Interventions
+          </button>
+        )}
 
-        {/* Status badges */}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-destructive/10">
             <AlertTriangle size={11} className="text-destructive" />
