@@ -1,1050 +1,1257 @@
-# Atlas Causality Engine
+# Atlas Causality Dashboard
 
-As a senior frontend builder create Causality Dashboard
+> **Atlas shows not just what is breaking, but the chain of causes making it break.**
 
-Purpose:
-Help leaders understand why a system is changing, not just where metrics moved.
+The **Causality Dashboard** is Atlas's system explanation engine: an interactive interface for understanding **why complex systems are changing**, which upstream factors matter most, what downstream effects may follow, where causal uncertainty exists, and where interventions could break harmful chains.
 
-It should answer questions like:
+It transforms disconnected metrics into **causal narratives**.
 
-What is driving this crisis?
+Instead of asking:
 
-Which upstream factors matter most?
+> "What metric moved?"
 
-What downstream effects are likely next?
+Atlas asks:
 
-Which interventions break the chain fastest?
+> **"What machinery is producing this outcome?"**
 
-Where are we mistaking correlation for causation?
+---
 
-This becomes Atlas’s system explanation engine.
+## 1. Product Overview
 
-1. Core product idea
+Modern decision-makers have access to enormous amounts of data, but dashboards often stop at description:
 
-The dashboard visualizes causal chains across domains:
+* rainfall is declining
+* crop production is falling
+* food prices are rising
+* household stress is increasing
+* civic tension is growing
 
-climate
+The Causality Dashboard connects these signals into an interpretable system:
 
-agriculture
+```text
+Rainfall deficit
+      ↓
+Crop output decline
+      ↓
+Regional grain shortage
+      ↓
+Wholesale price increase
+      ↓
+Household food stress
+      ↓
+Urban dissatisfaction
+      ↓
+Civic tension
+```
 
-trade
+Every relationship is accompanied by evidence, confidence, uncertainty, timing, and alternative explanations.
 
-inflation
+The result is a **visual system for causal reasoning**, rather than another metric-monitoring dashboard.
 
-migration
+---
 
-health
+# 2. Core Questions
 
-infrastructure
+The dashboard is designed to answer five fundamental questions:
 
-trust
+### What is driving this crisis?
 
-political stability
+Identify the strongest upstream factors contributing to the selected outcome.
 
-Example chain:
+### Which upstream factors matter most?
 
-Rainfall deficit in Ethiopia
-→ lower crop output
-→ reduced regional grain availability
-→ higher wholesale grain prices in Nairobi
-→ household food stress
-→ urban dissatisfaction
-→ protest probability increase
+Rank causal drivers by estimated influence, confidence, time lag, and downstream reach.
 
-That is not just a chart.
-That is a narrative of system pressure.
+### What happens next?
 
-2. Frontend goal
+Surface potential downstream effects and second-order consequences.
 
-As a senior frontend engineer, the challenge is not just showing a graph.
-It is making causal complexity legible without turning the UI into an octopus made of arrows.
+### Where can we intervene?
 
-The frontend must do 5 things well:
+Identify leverage points where an intervention could disrupt harmful causal pathways.
 
-Show the main causal chain
+### Where might we be wrong?
 
-Let users inspect evidence behind each link
+Expose uncertainty, confounders, competing models, alternative hypotheses, and evidence gaps.
 
-Show confidence and uncertainty
+---
 
-Compare alternative explanations
+# 3. Design Philosophy
 
-Surface intervention points
+The interface follows five principles:
 
-3. Primary user jobs
+### Causality over correlation
 
-This dashboard is for:
+Observed relationships and inferred causal relationships are explicitly separated.
 
-policy leaders
+### Evidence over magic
 
-crisis response teams
+Every important relationship should be inspectable.
 
-researchers
+### Uncertainty over false precision
 
-institutional strategists
+Confidence ranges, competing models, and evidence quality are first-class UI elements.
 
-donors
+### Time matters
 
-intelligence and planning units
+A causal relationship without temporal context is incomplete.
 
-Their jobs are:
+### Intervention has consequences
 
-diagnose causes of instability
+Every intervention is presented alongside expected effects, uncertainty, dependencies, cost, and potential unintended consequences.
 
-understand second-order effects
+---
 
-test policy actions
+# 4. Core Experience
 
-avoid simplistic blame narratives
+The dashboard consists of six primary zones.
 
-justify decisions with evidence
+## A. Causal Chain Canvas
 
-4. Information architecture
+The central interactive graph.
 
-The dashboard should have six major zones.
+### Nodes
 
-A. Causal chain canvas
+Represent:
 
-This is the heart of the dashboard.
-
-A large interactive graph showing:
-
-nodes = events, conditions, system states
-
-edges = directional causal influence
-
-thickness = influence strength
-
-edge style = evidence type or certainty
-
-colors = domain category or risk class
-
-Example node types:
-
-drought event
-
-crop yield decline
-
-trade bottleneck
-
-retail inflation
-
-food insecurity
-
-civil stress signal
-
-This is the “planetary why-machine.”
-
-B. Root drivers panel
-
-A ranked list of the strongest upstream causes for the currently selected issue.
-
-If user selects:
-
-“Urban food stress in Nairobi”
-
-this panel shows:
-
-grain price inflation
-
-household income compression
-
-transport costs
-
-local supply disruption
-
-rainfall-linked agricultural loss
-
-currency weakness
-
-Each cause should display:
-
-estimated causal weight
-
-confidence score
-
-time lag
-
-supporting evidence count
-
-domain source
-
-This helps users distinguish proximate causes from deep structural drivers.
-
-C. Downstream consequences panel
-
-When a node is selected, this shows probable ripple effects.
-
-Example for grain price spike:
-
-malnutrition risk ↑
-
-school attendance ↓
-
-petty crime risk ↑
-
-grievance sentiment ↑
-
-public subsidy pressure ↑
-
-This is where Atlas stops being descriptive and starts acting like a system foresight engine.
-
-D. Evidence inspector
-
-This is critical. Without it, the dashboard becomes magical nonsense in a suit.
-
-For every edge, users must inspect:
-
-data sources used
-
-causal method used
-
-historical examples
-
-strength of evidence
-
-counterfactual comparison
-
-possible confounders
-
-alternate interpretations
+* events
+* conditions
+* system states
+* risks
+* outcomes
+* interventions
 
 Example:
 
-Crop failure → Nairobi grain inflation
+```text
+Drought
+   ↓
+Crop Yield Decline
+   ↓
+Trade Pressure
+   ↓
+Grain Inflation
+   ↓
+Food Stress
+```
 
-Evidence card:
+### Edges
 
-Source data: satellite vegetation index, trade flows, wholesale market prices
+Represent directional influence.
 
-Method: Bayesian structural time series + trade dependency graph
+Visual encoding includes:
 
-Lag estimate: 2–6 weeks
+* influence strength
+* positive / negative polarity
+* confidence
+* direct / indirect relationship
+* observed / inferred relationship
+* evidence type
 
-Confidence: medium
+The graph should support:
 
-Confounders: fuel price surge, import bottlenecks, currency depreciation
+* zoom
+* pan
+* node selection
+* edge selection
+* neighborhood expansion
+* upstream highlighting
+* downstream highlighting
+* semantic clustering
+* graph filtering
+* pathway isolation
+* animated causal flow
 
-This panel is what separates serious systems engineering from techno-mysticism with nice gradients.
+---
 
-E. Intervention simulator
+# 5. Root Drivers
 
-This is the strategic gold.
-
-If the user can see causes, they will immediately ask:
-
-“What happens if we intervene here?”
-
-The dashboard should allow users to test actions like:
-
-emergency grain subsidy
-
-transport corridor reopening
-
-local reserve release
-
-irrigation support
-
-cash transfers
-
-import tariff change
-
-The UI then shows:
-
-estimated chain disruption
-
-affected downstream nodes
-
-expected lag before change
-
-cost vs impact
-
-uncertainty band
-
-This turns the dashboard from diagnosis into decision support.
-
-F. Timeline + causality playback
-
-A time scrubber lets users replay how a crisis unfolded.
-
-You move through weeks or months and the graph animates:
-
-new nodes appear
-
-link strengths change
-
-tensions intensify
-
-intervention opportunities emerge
-
-This is incredibly important because causality is time-sensitive.
-A cause without timing is just suspicious storytelling.
-
-5. Key frontend views
-
-There should be several working modes.
-
-1. Overview mode
-
-Best for executives.
-
-Shows:
-
-top active causal chains
-
-biggest root drivers globally or regionally
-
-sectors under compounded pressure
-
-strongest cross-border influence routes
-
-Very high signal. Very low clutter.
-
-2. Investigation mode
-
-Best for analysts.
-
-This is the full graph exploration interface with:
-
-node expansion
-
-edge inspection
-
-filter controls
-
-domain overlays
-
-evidence drawer
-
-historical comparison
-
-Think: “Google Maps for systemic causation.”
-
-3. Compare mode
-
-Compare two explanations or two regions.
-
-Examples:
-
-Why is food stress rising in Nairobi vs Addis Ababa?
-
-Why did one drought produce unrest in one region but not another?
-
-Which causal pathways are shared, and which are unique?
-
-This is where policymakers stop hallucinating one-size-fits-all policy.
-
-4. Scenario mode
-
-“What if” testing.
+The Root Drivers panel identifies the strongest upstream factors influencing the selected outcome.
 
 Example:
 
-What if rainfall recovers next quarter?
+| Driver             | Domain         | Causal Weight | Confidence |        Lag | Evidence |
+| ------------------ | -------------- | ------------: | ---------: | ---------: | -------: |
+| Grain inflation    | Economics      |          0.82 |       High |  1–3 weeks |       14 |
+| Income compression | Economics      |          0.71 |     Medium |  2–6 weeks |        9 |
+| Transport costs    | Infrastructure |          0.64 |     Medium |  1–4 weeks |        7 |
+| Supply disruption  | Agriculture    |          0.59 |     Medium |  2–6 weeks |       11 |
+| Rainfall deficit   | Climate        |          0.43 |     Medium | 1–3 months |       18 |
 
-What if transport fuel rises 20%?
+The goal is to distinguish:
 
-What if a subsidy is introduced?
+**proximate causes**
 
-What if migration increases into a stressed city?
+from
 
-Show scenario branches without pretending certainty.
-The UI should feel like guided probabilistic reasoning, not prophecy.
+**structural drivers.**
 
-6. Component breakdown
+---
 
-Now let’s get surgical.
+# 6. Downstream Consequences
 
-Global header
-
-Contains:
-
-region selector
-
-time range selector
-
-issue selector
-
-model status badge
-
-last update timestamp
-
-alert severity badge
-
-Causal graph canvas
-
-Main component.
-
-Capabilities:
-
-zoom / pan
-
-semantic clustering
-
-collapse/expand subgraphs
-
-drag focus
-
-edge hover tooltips
-
-click to lock node
-
-highlight upstream or downstream chain
-
-animate flow direction
-
-Node visuals should encode:
-
-category icon
-
-severity ring
-
-volatility pulse
-
-confidence halo
-
-time lag badge
-
-Edge visuals should encode:
-
-positive or negative influence
-
-influence magnitude
-
-certainty
-
-direct vs indirect effect
-
-observed vs inferred link
-
-Chain summary ribbon
-
-Above or below the graph.
-
-Shows current explanation as plain language:
-
-Rainfall deficit in eastern Ethiopia is contributing to Nairobi food stress through reduced grain output, trade pressure, and price inflation. Estimated causal confidence: medium-high.
-
-That one sentence is hugely valuable.
-Leaders need the graph, but they also need the sentence.
-
-Node details drawer
-
-Opens on click.
-
-Contains:
-
-node description
-
-current state/value
-
-trend sparkline
-
-upstream dependencies
-
-downstream impacts
-
-linked datasets
-
-anomaly history
-
-intervention relevance
+Selecting a node reveals potential ripple effects.
 
 For example:
 
-Node: Nairobi retail maize price
+```text
+Grain Price Spike
+       │
+       ├──→ Food Stress ↑
+       │
+       ├──→ Nutrition Risk ↑
+       │
+       ├──→ Household Consumption ↓
+       │
+       ├──→ Subsidy Pressure ↑
+       │
+       └──→ Grievance Signals ↑
+```
 
-Current value: KES X/kg
+Each downstream relationship should expose:
 
-Trend: +12% in 4 weeks
+* estimated effect
+* confidence
+* expected lag
+* affected population
+* evidence count
+* uncertainty range
 
-Upstream influences: transport cost, wholesale grain shortage, currency weakness
+The system must clearly distinguish **forecast**, **historical pattern**, and **observed consequence**.
 
-Downstream effects: household food stress, grievance risk, nutrition decline
+---
 
-Edge details drawer
+# 7. Evidence Inspector
 
-Opens on edge click.
+The Evidence Inspector is the credibility layer of Atlas.
+
+Every important causal edge should be inspectable.
+
+Example:
+
+### Crop Failure → Nairobi Grain Inflation
+
+**Sources**
+
+* satellite vegetation indices
+* agricultural production data
+* regional trade flows
+* wholesale market prices
+
+**Method**
+
+Bayesian structural time series + trade dependency analysis
+
+**Estimated lag**
+
+2–6 weeks
+
+**Confidence**
+
+Medium
+
+**Potential confounders**
+
+* fuel price increases
+* currency depreciation
+* import bottlenecks
+* transport disruption
+
+**Alternative explanation**
+
+Transport bottlenecks may explain a larger proportion of the observed price movement than agricultural output decline.
+
+Evidence should be presented as evidence—not transformed into certainty by visual design.
+
+---
+
+# 8. Intervention Simulator
+
+The Intervention Simulator transforms diagnosis into scenario analysis.
+
+Users can test interventions such as:
+
+* emergency grain subsidies
+* transport corridor reopening
+* strategic reserve release
+* irrigation support
+* targeted cash transfers
+* import tariff changes
+* supply-chain diversification
+
+Each intervention displays:
+
+```text
+Intervention
+     ↓
+Target Node
+     ↓
+Affected Pathways
+     ↓
+Estimated Downstream Effects
+     ↓
+Time to Effect
+```
+
+### Intervention Card
+
+Each action should include:
+
+* target node
+* estimated impact
+* time to effect
+* confidence
+* cost band
+* dependencies
+* affected downstream nodes
+* uncertainty interval
+* unintended consequence risk
+
+The simulator should never imply that a scenario is a guaranteed prediction.
+
+---
+
+# 9. Timeline Playback
+
+Causality is temporal.
+
+The timeline allows users to replay the evolution of a system over weeks, months, or years.
+
+As the timeline moves:
+
+* nodes appear
+* relationships strengthen or weaken
+* anomalies emerge
+* interventions occur
+* downstream effects develop
+* evidence changes
+* competing explanations become more or less plausible
+
+Example:
+
+```text
+Jan       Feb       Mar       Apr       May
+
+Rainfall ↓
+          Crop Output ↓
+                    Trade Pressure ↑
+                              Grain Prices ↑
+                                      Food Stress ↑
+```
+
+This allows analysts to examine whether a proposed causal sequence is temporally plausible.
+
+---
+
+# 10. Operating Modes
+
+## Overview
+
+Designed for executives and decision-makers.
+
+Shows:
+
+* active causal chains
+* major root drivers
+* sectors under compound pressure
+* cross-border influence routes
+* system fragility indicators
+* high-priority evidence gaps
+
+Minimal clutter.
+
+Maximum signal.
+
+---
+
+## Investigation
+
+Designed for analysts and researchers.
+
+Features:
+
+* full causal graph
+* node expansion
+* edge inspection
+* evidence drawer
+* domain filters
+* geography filters
+* model filters
+* historical comparisons
+* alternative explanations
+
+Think:
+
+> **Google Maps for systemic causation.**
+
+---
+
+## Compare
+
+Compare two systems, regions, time periods, or causal explanations.
+
+Examples:
+
+```text
+Nairobi vs Addis Ababa
+
+Drought-driven explanation
+vs
+Transport-driven explanation
+```
+
+The interface highlights:
+
+* shared causal pathways
+* unique drivers
+* divergent relationships
+* evidence differences
+* model disagreements
+
+The objective is not to force one explanation, but to make competing explanations legible.
+
+---
+
+## Scenario
+
+Explore hypothetical changes.
+
+Examples:
+
+```text
+What if rainfall recovers?
+
+What if fuel prices increase 20%?
+
+What if a subsidy is introduced?
+
+What if migration increases?
+
+What if trade routes reopen?
+```
+
+Scenario outputs should include uncertainty bands and assumptions.
+
+The UI should feel like **guided probabilistic reasoning**, not prophecy.
+
+---
+
+# 11. Primary Components
+
+## Global Header
 
 Contains:
 
-relationship description
+* region selector
+* time range
+* issue selector
+* model status
+* last update
+* alert severity
 
-mechanism explanation
+---
 
-evidence sources
+## Causal Graph
 
-lag range
+The primary visualization layer.
 
-causal strength score
+### Node encoding
 
-uncertainty range
+Nodes may encode:
 
-historical examples
+* domain
+* severity
+* confidence
+* volatility
+* intervention eligibility
+* temporal status
 
-alternative explanations
+### Edge encoding
 
-This component is the ethical backbone of the dashboard.
+Edges may encode:
 
-Filters sidebar
+* direction
+* polarity
+* strength
+* confidence
+* directness
+* evidence type
 
-Users should be able to filter by:
+---
 
-sector
+## Chain Summary
 
-geography
-
-institution
-
-risk level
-
-confidence threshold
-
-time lag range
-
-direct vs indirect influences
-
-model type
-
-evidence quality
-
-observed vs predicted
-
-Without filtering, the graph becomes spaghetti with a government budget.
-
-Impact ranking table
-
-A side table listing strongest currently active drivers.
-
-Columns:
-
-factor
-
-domain
-
-causal score
-
-confidence
-
-lag
-
-affected population
-
-downstream breadth
-
-This is useful for people who trust tables more than galaxies of nodes.
-
-Intervention cards
-
-Each recommended intervention should show:
-
-action
-
-target node
-
-expected effect
-
-estimated time horizon
-
-confidence
-
-cost class
-
-dependencies
-
-unintended consequence risk
-
-Atlas should never show intervention without tradeoff context.
-Otherwise it becomes a machine for confident policy blunders.
-
-7. UX interactions that matter
-
-This dashboard will live or die on interaction design.
-
-A. Hover to preview chain
-
-Hover on a node and lightly highlight:
-
-its top 3 upstream causes
-
-its top 3 downstream effects
-
-This gives immediate context without forcing a click.
-
-B. Click to isolate pathway
-
-Click a node or edge to isolate its chain and dim irrelevant graph regions.
-
-C. “Explain this” action
-
-A button that translates the selected graph into a readable explanation.
+A natural-language explanation of the selected pathway.
 
 Example:
-“Food stress in Nairobi has been driven primarily by grain inflation, reduced household purchasing power, and supply constraints linked to drought-related output declines.”
 
-D. “Show alternatives”
+> **Rainfall deficits in eastern Ethiopia are contributing to food stress in Nairobi through reduced grain output, regional trade pressure, and wholesale price inflation. Estimated causal confidence: medium-high.**
 
-Reveal competing explanations ranked by plausibility.
+The graph provides structure.
 
-This is a beautiful anti-bullshit feature.
+The sentence provides comprehension.
 
-E. “Break the chain”
+---
 
-Highlight the nodes where intervention could reduce downstream harm most efficiently.
+## Node Details Drawer
 
-F. Time rewind
+Displays:
 
-Slide backward and forward through the crisis timeline to see when each causal link strengthened.
+* description
+* current value
+* trend
+* upstream dependencies
+* downstream impacts
+* linked datasets
+* anomaly history
+* intervention relevance
 
-8. Visual language
+Example:
 
-You want this to feel like:
+```text
+Nairobi Retail Maize Price
 
-mission control
+Current:
+KES X/kg
 
-systems intelligence
+Trend:
++12% / 4 weeks
 
-forensic analysis
+Upstream:
+• Transport cost
+• Grain shortage
+• Currency weakness
 
-strategic calm under pressure
-
-Not like:
-
-crypto dashboard soup
-
-neural-network wallpaper
-
-Dr. Strange casting spells in D3.js
-
-Suggested visual system
-
-dark mode default
-
-restrained colors by domain
-
-red/orange only for stress escalation
-
-blue/green for stabilizing forces
-
-thin grid background for spatial order
-
-subtle animation for flow direction
-
-strong typography hierarchy
-
-high-contrast evidence badges
-
-Domain color example
-
-Climate = teal
-
-Agriculture = green
-
-Economics = amber
-
-Infrastructure = blue
-
-Governance = purple
-
-Social stability = red
-
-Health = cyan
-
-Do not overdo it.
-A causality graph already has enough drama.
-
-9. Data model for frontend
-
-A clean frontend model could look like this conceptually:
-
-Node
-
-id
-
-label
-
-type
-
-domain
-
-geography
-
-timestamp range
-
-state value
-
-change delta
-
-severity
-
-confidence
-
-evidenceCount
-
-interventionEligible
-
-Edge
-
-id
-
-sourceId
-
-targetId
-
-polarity
-
-influenceStrength
-
-confidence
-
-lagMin
-
-lagMax
-
-methodType
-
-directness
-
-evidenceRefs
-
-alternateHypotheses
-
-Chain
-
-id
-
-rootCauseIds
-
-targetOutcomeId
-
-pathNodes
-
-pathEdges
-
-compositeConfidence
-
-narrativeSummary
-
-Intervention
-
-id
-
-label
-
-targetNodeIds
-
-estimatedImpact
-
-timeToEffect
-
-confidence
-
-riskScore
-
-costBand
-
-10. Technical frontend architecture
-
-For a serious build, I’d structure it like this:
-
-Frontend stack
-
-React / Next.js
-
-TypeScript
-
-Tailwind
-
-React Query / TanStack Query for async data state
-
-Zustand or Redux Toolkit for graph interaction state
-
-D3 for graph math
-
-React Flow or custom canvas/WebGL layer for network rendering
-
-ECharts or Recharts for side charts
-
-Mapbox / Deck.gl if spatial overlays matter
-
-Why this combination
-
-React handles application structure
-
-D3 handles force layout / graph logic
-
-React Flow can accelerate node-edge interactions
-
-WebGL or canvas becomes necessary when graph density increases
-
-State management matters because graph interaction gets hairy fast
-
-Performance strategy
-
-For large causal networks:
-
-virtualize side panels
-
-progressively load graph neighborhoods
-
-cluster nodes by domain/region
-
-lazy-fetch evidence on demand
-
-precompute layout server-side where possible
-
-debounce filter changes
-
-cache selected chain expansions
-
-Because yes, a lovely causal graph is nice.
-A causal graph that turns the browser into porridge is less nice.
-
-11. Suggested page layout
-
-Top section
-
-title
-
-issue selector
-
-region selector
-
-confidence banner
-
-natural language causal summary
-
-Main body
-
-Left sidebar
-
-filters
-
-root drivers
-
-active chain list
-
-Center
-
-causal graph canvas
-
-Right drawer
-
-node or edge inspector
-
-evidence panel
-
-intervention simulator
-
-Bottom section
-
-timeline playback
-
-event log
-
-chain comparison tabs
-
-impact ranking table
-
-12. Key KPIs this dashboard should expose
-
-This dashboard itself needs metrics.
-
-Track:
-
-strongest root driver
-
-chain depth
-
-downstream breadth
-
-average confidence
-
-intervention leverage score
-
-time-to-impact estimate
-
-cross-border dependency index
-
-systemic fragility score
-
-These let users quickly gauge:
-How dangerous is this chain, how believable is it, and where can we act?
-
-13. Empty states and edge cases
-
-Very important.
-
-Empty state
-
-When data is insufficient, do not fake causality.
-
-Show:
-
-insufficient evidence
-
-available correlations only
-
-recommended data sources needed
-
-estimated blind spots
-
-Conflicting models
-
-If two methods disagree, surface disagreement clearly.
-
-Show:
-
-Model A suggests drought is primary driver
-
-Model B suggests transport bottlenecks dominate
-
-Shared confidence zone: medium
-
-Required new evidence: updated trade flow data
-
-That is honest and strong.
-Fake certainty is how dashboards become expensive lies.
-
-14. AI-assisted features
-
-Because Atlas is Atlas, the dashboard should have an embedded reasoning assistant that can answer:
-
-“Why is this node rising?”
-
-“What are the top upstream drivers?”
-
-“Which intervention breaks the most downstream harm?”
-
-“What changed in the last 30 days?”
-
-“What evidence supports this link?”
-
-“What are alternative explanations?”
-
-But the assistant must be grounded in the graph and evidence panel, not free-range improvising like a caffeinated prophet.
-
-15. Design principles for credibility
-
-This dashboard becomes trusted only if it obeys these rules:
-
-Never imply certainty where there is only probability
-
-Always show:
-
-confidence
-
-uncertainty
-
-evidence quality
-
-method used
-
-Separate observed facts from inferred relationships
-
-Facts and inference are cousins, not twins.
-
-Explain time lag
-
-Many causes act slowly.
-A policy shock today may affect unrest weeks later.
-
-Show alternate pathways
-
-Real systems have branching causes, not a single villain in a cape.
-
-Make intervention tradeoffs visible
-
-Every action creates second-order effects.
-
-16. What makes this dashboard fascinating
-
-Because it changes the governing question from:
-
-“What metric is bad?”
-
-to
-
-“What machinery is producing this bad outcome?”
-
-That is a much more intelligent question.
-
-Typical government dashboards stop at:
-
-food prices up
-
-unrest risk rising
-
-rainfall down
-
-Atlas goes further:
-
-this is the causal chain
-
-these are the strongest drivers
-
-this is the evidence
-
-these are the best leverage points
-
-this is where uncertainty still lives
-
-That is not ordinary analytics.
-That is systems reasoning made visible.
-
-17. A concrete MVP version
-
-Do not build the whole planetary causality cathedral on day one.
-
-MVP scope
-
-Focus on one regional chain:
-
-Climate → Agriculture → Prices → Food Stress → Civic Tension
-
-MVP features:
-
-interactive causal graph
-
-node/edge inspection
-
-ranked root drivers
-
-downstream effects panel
-
-confidence visualization
-
-timeline playback
-
-2–3 intervention simulations
-
-That alone would already be more interesting than 90% of public-sector dashboards wandering around the earth in a blazer.
-
-18. Best one-line product framing
-
-The Causality Dashboard helps leaders trace how environmental, economic, and governance pressures create crises—so they can intervene at the right point before system failure spreads.
-
-Or even tighter:
-
-Atlas shows not just what is breaking, but the chain of causes making it break.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/45a9ab0b-07fc-4b75-967d-0634567c5981).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+Downstream:
+• Food stress
+• Nutrition risk
+• Grievance signals
 ```
+
+---
+
+## Edge Details Drawer
+
+Displays:
+
+* relationship description
+* mechanism
+* evidence
+* causal method
+* lag
+* strength
+* uncertainty
+* historical examples
+* confounders
+* alternative hypotheses
+
+This is the ethical backbone of the product.
+
+---
+
+## Filters
+
+Filter by:
+
+* domain
+* geography
+* institution
+* risk level
+* confidence
+* time lag
+* directness
+* model type
+* evidence quality
+* observed / inferred
+* historical / current / predicted
+
+---
+
+# 12. AI Reasoning Assistant
+
+Atlas includes a graph-grounded reasoning assistant.
+
+Users can ask:
+
+> Why is this node rising?
+
+> What are the strongest upstream drivers?
+
+> What changed in the last 30 days?
+
+> Which evidence supports this edge?
+
+> What are the alternative explanations?
+
+> Where could an intervention disrupt the chain?
+
+The assistant should answer from:
+
+1. the current causal graph
+2. selected evidence
+3. model outputs
+4. historical observations
+5. scenario assumptions
+
+It should not invent causal relationships outside the evidence model.
+
+---
+
+# 13. Data Model
+
+## Node
+
+```ts
+interface CausalNode {
+  id: string;
+  label: string;
+  type: NodeType;
+  domain: Domain;
+  geography?: string;
+
+  timestampRange: {
+    start: string;
+    end?: string;
+  };
+
+  stateValue?: number;
+  changeDelta?: number;
+  severity?: number;
+
+  confidence: number;
+  evidenceCount: number;
+
+  interventionEligible: boolean;
+}
+```
+
+## Edge
+
+```ts
+interface CausalEdge {
+  id: string;
+
+  sourceId: string;
+  targetId: string;
+
+  polarity: "positive" | "negative";
+
+  influenceStrength: number;
+  confidence: number;
+
+  lagMin?: number;
+  lagMax?: number;
+
+  methodType: string;
+
+  directness: "direct" | "indirect";
+
+  evidenceRefs: string[];
+
+  alternateHypotheses: string[];
+}
+```
+
+## Chain
+
+```ts
+interface CausalChain {
+  id: string;
+
+  rootCauseIds: string[];
+
+  targetOutcomeId: string;
+
+  pathNodes: string[];
+  pathEdges: string[];
+
+  compositeConfidence: number;
+
+  narrativeSummary: string;
+}
+```
+
+## Intervention
+
+```ts
+interface Intervention {
+  id: string;
+
+  label: string;
+
+  targetNodeIds: string[];
+
+  estimatedImpact: number;
+
+  timeToEffect: {
+    min: number;
+    max: number;
+  };
+
+  confidence: number;
+
+  riskScore: number;
+
+  costBand: "low" | "medium" | "high";
+}
+```
+
+---
+
+# 14. Frontend Architecture
+
+Recommended stack:
+
+```text
+Next.js
+   │
+   ├── React
+   ├── TypeScript
+   └── Tailwind CSS
+        │
+        ├── TanStack Query
+        ├── Zustand / Redux Toolkit
+        │
+        ├── React Flow
+        ├── D3
+        ├── ECharts / Recharts
+        │
+        └── Mapbox / Deck.gl
+```
+
+### Responsibilities
+
+**React / Next.js**
+
+Application architecture and routing.
+
+**TypeScript**
+
+Strong domain contracts and safer data flow.
+
+**Tailwind**
+
+Consistent design system implementation.
+
+**TanStack Query**
+
+Server state, caching, synchronization, and async data.
+
+**Zustand / Redux Toolkit**
+
+Graph interaction and application state.
+
+**D3**
+
+Graph algorithms, scales, calculations, and advanced visualization logic.
+
+**React Flow**
+
+Interactive node-edge experiences.
+
+**Canvas / WebGL**
+
+High-density graph rendering where DOM rendering becomes insufficient.
+
+**ECharts / Recharts**
+
+Supporting time series and analytical charts.
+
+**Mapbox / Deck.gl**
+
+Geospatial causal overlays.
+
+---
+
+# 15. Performance Architecture
+
+Large causal graphs can become computationally expensive.
+
+Atlas should therefore use:
+
+### Progressive graph loading
+
+Initially load:
+
+```text
+selected node
+     ↓
+nearest causal neighborhood
+     ↓
+expanded branches on demand
+```
+
+### Semantic clustering
+
+Group nodes by:
+
+* domain
+* geography
+* institution
+* causal subsystem
+
+### Server-side layout
+
+Precompute expensive layouts where practical.
+
+### Lazy evidence loading
+
+Evidence is fetched when a relationship is inspected rather than loading the entire evidence universe.
+
+### Cached expansions
+
+Repeatedly explored causal neighborhoods should be cached.
+
+### Virtualized panels
+
+Large evidence lists and ranking tables should use virtualization.
+
+### Debounced filters
+
+Avoid recomputing graph state for every keystroke.
+
+### Rendering strategy
+
+Use SVG for small/medium networks.
+
+Use Canvas/WebGL for dense networks.
+
+---
+
+# 16. Visual System
+
+Atlas should feel like:
+
+* mission control
+* systems intelligence
+* forensic analysis
+* strategic calm
+
+It should **not** feel like:
+
+* crypto dashboard soup
+* neural-network wallpaper
+* a cyberpunk casino
+* "Dr. Strange casting spells in D3.js"
+
+### Default
+
+Dark mode.
+
+### Domain language
+
+| Domain           | Visual Accent |
+| ---------------- | ------------- |
+| Climate          | Teal          |
+| Agriculture      | Green         |
+| Economics        | Amber         |
+| Infrastructure   | Blue          |
+| Governance       | Purple        |
+| Social Stability | Red           |
+| Health           | Cyan          |
+
+Color should communicate meaning, not decoration.
+
+Stress escalation should use red/orange sparingly.
+
+Stabilizing forces can use blue/green.
+
+The graph itself should remain visually restrained.
+
+---
+
+# 17. Interaction Principles
+
+### Hover
+
+Preview:
+
+* top upstream causes
+* top downstream effects
+
+without changing application state.
+
+### Click
+
+Lock the selected node or edge.
+
+Dim unrelated pathways.
+
+### Explain This
+
+Convert the selected pathway into a concise natural-language explanation.
+
+### Show Alternatives
+
+Expose competing causal explanations and their supporting evidence.
+
+### Break the Chain
+
+Highlight potential intervention points.
+
+### Time Rewind
+
+Move backward through the system to identify when causal relationships changed.
+
+---
+
+# 18. Credibility Framework
+
+Atlas should enforce a strict distinction between:
+
+```text
+OBSERVED
+   ↓
+MODELED
+   ↓
+INFERRED
+   ↓
+SCENARIO
+```
+
+These states must never visually collapse into one another.
+
+Every causal relationship should expose:
+
+* confidence
+* evidence quality
+* method
+* temporal lag
+* uncertainty
+* potential confounders
+* alternative explanations
+
+### Example
+
+```text
+Observed:
+Wholesale grain prices increased 12%.
+
+Modeled:
+Transport disruption explains an estimated portion of the movement.
+
+Inferred:
+Transport disruption may have amplified the effect of regional supply decline.
+
+Scenario:
+If transport capacity recovers, modeled price pressure may decrease.
+```
+
+This distinction is fundamental to the product.
+
+---
+
+# 19. Model Disagreement
+
+When models disagree, Atlas should make the disagreement visible.
+
+Example:
+
+```text
+MODEL A
+
+Drought
+   ↓
+Primary driver
+
+Confidence: Medium
+
+
+MODEL B
+
+Transport bottleneck
+   ↓
+Primary driver
+
+Confidence: Medium
+
+
+SHARED EVIDENCE
+
+Supply disruption is associated
+with elevated grain prices.
+
+Evidence gap:
+
+Updated regional trade-flow data
+```
+
+The interface should never manufacture consensus where none exists.
+
+---
+
+# 20. Empty States
+
+When evidence is insufficient:
+
+```text
+INSUFFICIENT EVIDENCE
+
+Atlas cannot establish a reliable
+causal pathway for this relationship.
+
+Available:
+• Correlation data
+• Historical observations
+
+Missing:
+• Updated trade-flow data
+• Regional production estimates
+
+Known blind spots:
+• Informal markets
+• Delayed reporting
+
+Recommendation:
+Acquire additional evidence before
+using this pathway for intervention analysis.
+```
+
+No fabricated causality.
+
+No mystery score.
+
+No dashboard theater.
+
+---
+
+# 21. System KPIs
+
+Atlas should expose system-level indicators such as:
+
+### Root Driver Strength
+
+Estimated contribution of major upstream factors.
+
+### Chain Depth
+
+Number of meaningful causal stages.
+
+### Downstream Breadth
+
+Number of affected downstream systems.
+
+### Average Confidence
+
+Aggregate confidence across the selected pathway.
+
+### Intervention Leverage
+
+Estimated potential for disrupting downstream effects.
+
+### Time to Impact
+
+Expected temporal distance between intervention and effect.
+
+### Cross-Border Dependency
+
+Degree of causal dependence across geographic boundaries.
+
+### Systemic Fragility
+
+Composite indicator of interconnected pressure and uncertainty.
+
+These metrics should be accompanied by definitions and methodology rather than presented as universal truths.
+
+---
+
+# 22. MVP
+
+The first release should **not** attempt to model the entire planet.
+
+Start with one causal domain:
+
+```text
+Climate
+   ↓
+Agriculture
+   ↓
+Prices
+   ↓
+Food Stress
+   ↓
+Civic Tension
+```
+
+### MVP features
+
+* interactive causal graph
+* node inspection
+* edge inspection
+* root-driver ranking
+* downstream effects
+* confidence visualization
+* evidence panel
+* timeline playback
+* alternative explanations
+* 2–3 intervention scenarios
+* graph-grounded AI explanation
+
+That is enough to demonstrate the core product.
+
+---
+
+# 23. Example MVP Scenario
+
+### Selected issue
+
+**Urban Food Stress — Nairobi**
+
+### Causal chain
+
+```text
+Rainfall Deficit
+        ↓
+Agricultural Output Decline
+        ↓
+Regional Grain Availability ↓
+        ↓
+Wholesale Grain Prices ↑
+        ↓
+Retail Food Prices ↑
+        ↓
+Household Purchasing Power ↓
+        ↓
+Food Stress ↑
+```
+
+### Root Drivers
+
+```text
+1. Grain price inflation
+2. Household income compression
+3. Transport costs
+4. Regional supply disruption
+5. Agricultural output decline
+6. Currency pressure
+```
+
+### Potential Interventions
+
+```text
+Strategic reserve release
+        ↓
+Wholesale supply
+        ↓
+Price pressure
+        ↓
+Food stress
+```
+
+or:
+
+```text
+Transport corridor intervention
+        ↓
+Distribution capacity
+        ↓
+Regional availability
+        ↓
+Price pressure
+```
+
+Each pathway should expose its own assumptions and uncertainty.
+
+---
+
+# 24. Example User Flow
+
+```text
+Open Atlas
+    ↓
+Select Region
+    ↓
+Select Issue
+    ↓
+View Causal Summary
+    ↓
+Inspect Main Chain
+    ↓
+Select Root Driver
+    ↓
+Inspect Evidence
+    ↓
+Review Alternative Explanations
+    ↓
+Explore Downstream Effects
+    ↓
+Open Intervention Simulator
+    ↓
+Run Scenario
+    ↓
+Compare Results
+    ↓
+Review Uncertainty
+    ↓
+Export Explanation
+```
+
+---
+
+# 25. Success Criteria
+
+The dashboard succeeds when a user can move from:
+
+> "Something is getting worse."
+
+to:
+
+> "Here is the most supported causal pathway explaining the change."
+
+and then:
+
+> "Here are the competing explanations."
+
+and finally:
+
+> "Here are the intervention points, expected effects, timing, tradeoffs, and remaining uncertainties."
+
+without needing to understand the underlying graph engine.
+
+---
+
+# 26. Product Positioning
+
+### Long version
+
+> **The Causality Dashboard helps leaders trace how environmental, economic, and governance pressures interact to create systemic crises—so they can understand where pressure originates, how it propagates, where uncertainty remains, and where interventions may disrupt harmful chains.**
+
+### Short version
+
+> **Atlas shows not just what is breaking, but the chain of causes making it break.**
+
+### Product category
+
+**Systemic Causal Intelligence**
+
+### Core metaphor
+
+**A map of why.**
+
+---
+
+# 27. North Star
+
+Traditional dashboards answer:
+
+> **What happened?**
+
+Analytics platforms answer:
+
+> **What changed?**
+
+Predictive systems answer:
+
+> **What might happen?**
+
+Atlas aims to answer:
+
+> **Why is it happening, what could happen next, what else could explain it, and where could the chain be interrupted?**
+
+That is the Causality Dashboard.
+
+Not a prettier KPI screen.
+
+Not a graph with arrows.
+
+A visual reasoning system for complex, interconnected worlds.
